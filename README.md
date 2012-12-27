@@ -1,3 +1,5 @@
+[![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/denniskuczynski/simple_upnp)
+
 # simple_upnp
 
 A few libraries already exist for working with Universal Plug and Play (UPnP) devices.
