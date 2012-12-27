@@ -15,6 +15,6 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = SimpleUpnp::VERSION
 
-  gem.add_dependency "nori",  '~> 1.1.3'
+  gem.add_dependency "nori",  '~> 2.0.0'
 
 end
