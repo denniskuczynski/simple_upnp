@@ -16,6 +16,8 @@ module SimpleUpnp
       socket.setsockopt(Socket::IPPROTO_IP, Socket::IP_TTL, [1].pack('i'))
       socket.send(M_SEARCH, 0, SSDP_ADDR, SSDP_PORT)
       messages = receive_messages(socket, seconds_to_listen)
+      socket.close
+
       devices = process_messages(messages)
     end
 
