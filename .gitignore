@@ -1,3 +1,5 @@
-temp
-dist
-.sass-cache
+.DS_Store
+pkg
+doc
+*.gem
+
