@@ -11,43 +11,53 @@ module SimpleUpnp
 
     # Signal the uPnP Multicast address and wait for responses, returning an array of SimpleUpnp::Devices
     def self.search(seconds_to_listen=5)
-      socket = UDPSocket.new
-      socket.bind('', SSDP_PORT)
-      socket.setsockopt(Socket::IPPROTO_IP, Socket::IP_TTL, [1].pack('i'))
-      socket.send(M_SEARCH, 0, SSDP_ADDR, SSDP_PORT)
-      messages = receive_messages(socket, seconds_to_listen)
-      socket.close
+      devices = []
+      open_socket do |socket|
+        process_messages(socket, seconds_to_listen) do |message|
+          device = SimpleUpnp::Device.new(message)
+          index = devices.index { |x| x.usn == device.usn }
+          devices << device if index.nil?
+        end
+      end
+      devices
+    end
 
-      devices = process_messages(messages)
+    # Signal the uPnP Multicast address and wait for responses, which can be processed by an input block accepting a SimpleUpnp::Device
+    # Use break to exit the block once you have found the device being looked for
+    def self.find(seconds_to_listen=5, &block)
+      open_socket do |socket|
+        process_messages(socket, seconds_to_listen) do |message|
+          device = SimpleUpnp::Device.new(message)
+          yield device
+        end
+      end
     end
 
     private
 
-    # Read responses from the socket until the Timout triggers
-    def self.receive_messages(socket, seconds_to_listen)
-      messages = []
+    def self.open_socket(&block)
+      begin
+        socket = UDPSocket.new
+        socket.bind('', SSDP_PORT)
+        socket.setsockopt(Socket::IPPROTO_IP, Socket::IP_TTL, [1].pack('i'))
+        socket.send(M_SEARCH, 0, SSDP_ADDR, SSDP_PORT)
+        yield socket
+      ensure
+        socket.close
+      end
+    end
+
+    def self.process_messages(socket, seconds_to_listen, &block)
       begin
         Timeout::timeout(seconds_to_listen) do
           while true
             message, sender = socket.recvfrom(MAX_RECEIVE_LENGTH)
-            messages << message
+            yield message
           end
         end
       rescue Timeout::Error => e
         # Finished Listening
       end
-      messages
-    end
-
-    # Convert messages to a unique array of Devices
-    def self.process_messages(messages)
-      devices = []
-      messages.each do |message|
-        device = SimpleUpnp::Device.new(message)
-        index = devices.index { |x| x.usn == device.usn }
-        devices << device if index.nil?
-      end
-      devices
     end
 
   end

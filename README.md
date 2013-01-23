@@ -25,7 +25,11 @@ Or install it yourself as:
 
 ## Usage
 
-The below code (which can be triggered with the included rake task: "rake simple_upnp:discover"):
+You may either:
+  * search for a configurable number of seconds and return all unique devices that have responded.
+  * attempt to find a specific device and exit early once found
+
+The following example shows search (which can be triggered with the included rake task: "rake simple_upnp:search"):
 ```
 include_location_details = true
 devices = SimpleUpnp::Discovery.search()
@@ -36,7 +40,32 @@ devices.each do |device|
 end
 ```
 
-Should produce output similar to the following:
+The following example shows find (which can be triggered with the included rake task: "rake simple_upnp:find_hue"):
+```
+include_location_details = true
+hue_device = nil
+SimpleUpnp::Discovery.find do |device|
+  device_json = device.to_json(include_location_details)
+  if device_json['root']
+    if device_json['root']['device']
+      if device_json['root']['device']['friendlyName']
+        friendlyName = device_json['root']['device']['friendlyName']
+        if friendlyName =~ /Philips hue/
+          hue_device = device 
+          break
+        end
+      end
+    end
+  end
+end
+if hue_device
+  puts 'Device Found: '
+  puts hue_device.to_json(include_location_details)
+  puts ''
+end
+```
+
+Search should produce output similar to the following:
 ```
 Searching for devices...
 Device Found: 
