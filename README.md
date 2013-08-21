@@ -30,7 +30,7 @@ You may either:
   * attempt to find a specific device and exit early once found
 
 The following example shows search (which can be triggered with the included rake task: "rake simple_upnp:search"):
-```
+```ruby
 include_location_details = true
 devices = SimpleUpnp::Discovery.search()
 devices.each do |device|
@@ -41,7 +41,7 @@ end
 ```
 
 The following example shows find (which can be triggered with the included rake task: "rake simple_upnp:find_hue"):
-```
+```ruby
 include_location_details = true
 hue_device = nil
 SimpleUpnp::Discovery.find do |device|
@@ -82,3 +82,13 @@ Device Found:
 3. Commit your changes (`git commit -am 'Added some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
+
+## License
+
+simple_upnp is released under the MIT license:
+
+http://www.opensource.org/licenses/MIT
+
+It makes use of the following libraries:
+
+Nori - https://github.com/savonrb/nori
