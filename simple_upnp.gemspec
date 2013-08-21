@@ -16,6 +16,6 @@ Gem::Specification.new do |gem|
   gem.version       = SimpleUpnp::VERSION
 
   gem.add_dependency "nori",  '~> 2.0.0'
-  gem.add_dependency "rspec", '~> 2.12.0'
+  gem.add_development_dependency "rspec", '~> 2.12.0'
 
 end

@@ -46,7 +46,7 @@ module SimpleUpnp
       url = URI.parse(location)
       req = Net::HTTP::Get.new(url.path)
       res = Net::HTTP.start(url.host, url.port) {|http| http.request(req) }
-      parser = Nori.new()
+      parser = Nori.new(:parser => :rexml)
       parser.parse(res.body)
     end
 
