@@ -38,8 +38,9 @@ module SimpleUpnp
     def self.open_socket(&block)
       begin
         socket = UDPSocket.new
-        socket.bind('', SSDP_PORT)
+        socket.setsockopt(Socket::SOL_SOCKET, Socket::SO_REUSEADDR, [1].pack('i'))
         socket.setsockopt(Socket::IPPROTO_IP, Socket::IP_TTL, [1].pack('i'))
+        socket.bind('', SSDP_PORT)
         socket.send(M_SEARCH, 0, SSDP_ADDR, SSDP_PORT)
         yield socket
       ensure
