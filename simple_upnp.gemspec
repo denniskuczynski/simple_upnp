@@ -7,6 +7,7 @@ Gem::Specification.new do |gem|
   gem.description   = %q{Simple library to perform basic UPnP network discovery.}
   gem.summary       = %q{Simple library to perform basic UPnP network discovery.}
   gem.homepage      = ""
+  gem.license         = 'MIT'
 
   gem.files         = `git ls-files`.split($\)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
