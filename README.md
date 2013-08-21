@@ -29,7 +29,7 @@ You may either:
   * search for a configurable number of seconds and return all unique devices that have responded.
   * attempt to find a specific device and exit early once found
 
-The following example shows search (which can be triggered with the included rake task: "rake simple_upnp:search"):
+The following example shows *search* (which can be triggered with the included rake task: "rake simple_upnp:search"):
 ```ruby
 include_location_details = true
 devices = SimpleUpnp::Discovery.search()
@@ -40,7 +40,7 @@ devices.each do |device|
 end
 ```
 
-The following example shows find (which can be triggered with the included rake task: "rake simple_upnp:find_hue"):
+The following example shows *find* (which can be triggered with the included rake task: "rake simple_upnp:find_hue"):
 ```ruby
 include_location_details = true
 hue_device = nil
