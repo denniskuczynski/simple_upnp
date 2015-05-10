@@ -52,11 +52,11 @@ module SimpleUpnp
       begin
         Timeout::timeout(seconds_to_listen) do
           while true
-            message, sender = socket.recvfrom(MAX_RECEIVE_LENGTH)
+            message, _ = socket.recvfrom(MAX_RECEIVE_LENGTH)
             yield message
           end
         end
-      rescue Timeout::Error => e
+      rescue Timeout::Error
         # Finished Listening
       end
     end
