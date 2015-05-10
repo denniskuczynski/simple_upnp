@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    simple_upnp (0.0.5)
+    simple_upnp (1.0.0)
       nori (~> 2.6)
 
 GEM
