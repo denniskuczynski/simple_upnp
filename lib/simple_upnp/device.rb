@@ -33,15 +33,15 @@ module SimpleUpnp
       h.merge!(retrieve_location_details) if include_location_details and location
       h
     end
-    
+
     private
-    
+
     def parse_token(tokens)
       value = nil
       value = tokens[1] if tokens.length >= 2
       value
     end
-    
+
     def retrieve_location_details
       url = URI.parse(location)
       req = Net::HTTP::Get.new(url.path)
