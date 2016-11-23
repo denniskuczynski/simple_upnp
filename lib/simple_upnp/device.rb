@@ -13,6 +13,7 @@ module SimpleUpnp
         elsif line =~ /^SERVER:/i
           @server = parse_token(line.split(': '))
         elsif line =~ /^USN:/i
+          line = line.sub('USN:', 'USN: ') unless line =~ /^USN: /
           @usn = parse_token(line.split(': '))
           # Trim off data after ::
           # For example, we don't want upnp:rootdevice from uuid:7DD8D98F-6577-582D-AF37-38B92EB830A4::upnp:rootdevice
